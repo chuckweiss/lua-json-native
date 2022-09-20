@@ -39,30 +39,22 @@ end
 
 local function handle(config)
   local pairs = config.sort_keys and pairs_sorted_by_keys or pairs
-  local pretty_nln = config.pretty and '\n' or ''
-  local pretty_spc = config.pretty and ' ' or ''
+  local nln = config.pretty and '\n' or ''
+  local spc = config.pretty and ' ' or ''
   local escape_str = config.escape_string_values and escape_str or tostring
-
   local function f(tbl, indent)
     local typ = type(tbl)
     if typ == 'table' then
       local is_arr = not (not tbl[1])
       local open = is_arr and '[' or '{'
       local close = is_arr and ']' or '}'
-
       local str = ''
-
       for key, val in pairs(tbl) do
-        if str ~= '' then
-          str = str .. ','
-        end
-
-        local key_str = is_arr and '' or '"' .. key .. '":' .. pretty_spc
-
-        str = str .. pretty_nln .. gen_spaces(indent + config.spaces) .. key_str .. f(val, indent + config.spaces)
+        local key_str = is_arr and '' or '"' .. key .. '":' .. spc
+        str = str == '' and str or str .. ','
+        str = str .. nln .. gen_spaces(indent + config.spaces) .. key_str .. f(val, indent + config.spaces)
       end
-
-      return str ~= '' and open .. str .. pretty_nln .. gen_spaces(indent) .. close or '[]'
+      return str ~= '' and open .. str .. nln .. gen_spaces(indent) .. close or '[]'
     elseif typ == 'string' then
       return '"' .. escape_str(tbl) .. '"'
     else
@@ -82,6 +74,5 @@ return function(tbl, config)
   else
     config.spaces = 0
   end
-
   return handle(config)(tbl, 0)
 end
