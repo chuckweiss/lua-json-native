@@ -74,5 +74,5 @@ return function(tbl, config)
   else
     config.spaces = 0
   end
-  return handle(config)(tbl, 0)
+  return handle(config)(tbl, 0) .. '\n'
 end

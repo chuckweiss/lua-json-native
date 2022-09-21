@@ -35,7 +35,8 @@ describe(
     "name": "Logan Keller",
     "phone": "+1 (952) 533-2258"
   }
-]]===]
+]
+]===]
 
         local obj = {
           {
@@ -75,7 +76,7 @@ describe(
     it(
       'should encode an empty obj',
       function()
-        local expected = '[]'
+        local expected = '[]\n'
 
         local obj = {}
 
@@ -91,7 +92,8 @@ describe(
         local expected = [===[{
   "_id\n\": "
 5973782bdb9a930533b05cb2\"
-}]===]
+}
+]===]
 
         local obj = {
           ['_id\n\\'] = '\n5973782bdb9a930533b05cb2\\'
@@ -108,7 +110,8 @@ describe(
       function()
         local expected = [===[{
   "_id\n\": "\n5973782bdb9a930533b05cb2\"
-}]===]
+}
+]===]
 
         local obj = {
           ['_id\n\\'] = '\n5973782bdb9a930533b05cb2\\'
@@ -126,7 +129,7 @@ describe(
       'should encode an array with object that is not pretty',
       function()
         local expected =
-          '[{"_id":"5973782bdb9a930533b05cb2","age":32,"balance":"$1,446.35","company":"ARTIQ","email":"logankeller@artiq.com","eyeColor":"green","favoriteFruit":"banana","friends":[{"id":0,"name":"Colon Salazar"},{"id":1,"name":"French Mcneil"},{"id":2,"name":"Carol Martin"}],"gender":[],"isActive":true,"name":"Logan Keller","phone":"+1 (952) 533-2258"}]'
+          '[{"_id":"5973782bdb9a930533b05cb2","age":32,"balance":"$1,446.35","company":"ARTIQ","email":"logankeller@artiq.com","eyeColor":"green","favoriteFruit":"banana","friends":[{"id":0,"name":"Colon Salazar"},{"id":1,"name":"French Mcneil"},{"id":2,"name":"Carol Martin"}],"gender":[],"isActive":true,"name":"Logan Keller","phone":"+1 (952) 533-2258"}]\n'
 
         local obj = {
           {
