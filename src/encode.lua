@@ -42,7 +42,7 @@ local function handle(config, null)
   local nln = config.pretty and '\n' or ''
   local spc = config.pretty and ' ' or ''
   local escape_string = config.escape_string_values and escape_str or tostring
-  local function f(tbl, indent)
+  local function func(tbl, indent)
     local typ = type(tbl)
     if tbl == null then
       return 'null'
@@ -54,7 +54,7 @@ local function handle(config, null)
       for key, val in pairs(tbl) do
         local key_str = is_arr and '' or '"' .. escape_str(key) .. '":' .. spc
         str = str == '' and str or str .. ','
-        str = str .. nln .. gen_spaces(indent + config.spaces) .. key_str .. f(val, indent + config.spaces)
+        str = str .. nln .. gen_spaces(indent + config.spaces) .. key_str .. func(val, indent + config.spaces)
       end
       return str ~= '' and open .. str .. nln .. gen_spaces(indent) .. close or '[]'
     elseif typ == 'string' then
@@ -63,7 +63,7 @@ local function handle(config, null)
       return tostring(tbl)
     end
   end
-  return f
+  return func
 end
 
 return function(null)
@@ -72,11 +72,8 @@ return function(null)
     config.sort_keys = config.sort_keys or false
     config.pretty = config.pretty or false
     config.escape_string_values = config.escape_string_values or config.escape_string_values == nil
-    if config.pretty then
-      config.spaces = config.spaces or 2
-    else
-      config.spaces = 0
-    end
-    return handle(config, null)(tbl, 0) .. '\n'
+    config.spaces = config.pretty and (config.spaces or 2) or 0
+    config.append = config.append or '\n'
+    return handle(config, null)(tbl, 0) .. config.append
   end
 end

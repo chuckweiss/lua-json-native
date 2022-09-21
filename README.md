@@ -52,6 +52,7 @@ A optional table that contains the following optional fields:
 - `pretty` boolean: Set `true` to pretty format the JSON string. Default is `false`
 - `spaces` integer: The amount of spaces in an indent. Default is `2`. Ignored if `pretty` is `false`
 - `escape_string_values` boolean: Set `false` to not escape string values in `table`. Default is `true`
+- `append` string: This string will be appended to the end of the returned json string. Default is `\n`
 
 ### Returns
 
@@ -65,8 +66,8 @@ A JSON string
 null = lua_json_native.null
 ```
 
-A table that represents a `null`.
+A table that represents a `null`
 
-When decoding, this table takes the place of nulls found in JSON strings when `use_null` is enabled.
+When decoding, this table takes the place of nulls found in JSON strings when `use_null` is enabled
 
-When encoding, if this table is found, a `null` will take its place.
+When encoding, if this table is found, a `null` will take its place

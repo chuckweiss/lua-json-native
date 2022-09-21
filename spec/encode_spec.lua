@@ -88,6 +88,19 @@ describe(
     )
 
     it(
+      'should not include a new line when specified',
+      function()
+        local expected = '[]\r\n'
+
+        local obj = {}
+
+        local actual = encode(obj, {append = '\r\n'})
+
+        assert.are.same(expected, actual)
+      end
+    )
+
+    it(
       'should encode an object without escaped chars',
       function()
         local expected = [===[{
