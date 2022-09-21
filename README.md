@@ -66,5 +66,7 @@ null = lua_json_native.null
 ```
 
 A table that represents a `null`.
+
 When decoding, this table takes the place of nulls found in JSON strings when `use_null` is enabled.
+
 When encoding, if this table is found, a `null` will take its place.
