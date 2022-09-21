@@ -9,7 +9,7 @@ describe(
         local expected =
           [===[[
   {
-    "_id": "5973782bdb9a930533b05cb2",
+    "_id\n": "5973782bdb9a930533b05cb2",
     "age": 32,
     "balance": "$1,446.35",
     "company": "ARTIQ",
@@ -39,7 +39,7 @@ describe(
 
         local obj = {
           {
-            ['_id'] = '5973782bdb9a930533b05cb2',
+            ['_id\n'] = '5973782bdb9a930533b05cb2',
             ['isActive'] = true,
             ['balance'] = '$1,446.35',
             ['age'] = 32,
@@ -86,11 +86,10 @@ describe(
     )
 
     it(
-      'should encode an object with escaped chars',
+      'should encode an object without escaped chars',
       function()
         local expected = [===[{
-  "_id
-\": "
+  "_id\n\": "
 5973782bdb9a930533b05cb2\"
 }]===]
 
@@ -98,8 +97,27 @@ describe(
           ['_id\n\\'] = '\n5973782bdb9a930533b05cb2\\'
         }
 
-        local actual = encode(obj, {sort_keys = true, pretty = true})
+        local actual = encode(obj, {sort_keys = true, pretty = true, escape_string_values = false})
 
+        assert.are.same(expected, actual)
+      end
+    )
+
+    it(
+      'should encode an object with escaped chars',
+      function()
+        local expected = [===[{
+  "_id\n\": "\n5973782bdb9a930533b05cb2\"
+}]===]
+
+        local obj = {
+          ['_id\n\\'] = '\n5973782bdb9a930533b05cb2\\'
+        }
+
+        local actual = encode(obj, {sort_keys = true, pretty = true, escape_string_values = true})
+        assert.are.same(expected, actual)
+
+        local actual = encode(obj, {sort_keys = true, pretty = true})
         assert.are.same(expected, actual)
       end
     )
