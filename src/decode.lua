@@ -1,5 +1,6 @@
 local inside_string = false
 local escape = false
+local stack = {}
 local tbl = {}
 
 local char_map = {
@@ -9,7 +10,15 @@ local char_map = {
 }
 
 local function default(c)
-  if c == '{' or c == ',' then
+  if c == '{' then
+    table.insert(stack, 'tbl')
+  elseif c == '[' then
+    table.insert(stack, 'arr')
+  elseif c == '}' or c == ']' then
+    table.remove(stack)
+  end
+
+  if stack[#stack] == 'tbl' and (c == '{' or c == ',') then
     tbl = {']', '['}
   end
 

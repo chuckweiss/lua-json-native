@@ -10,10 +10,11 @@ describe(
           [===[
 [
   {
-    "_id": "5973782bdb9a930533b05cb2",
+    "_id": "5973782bdb9a930533b05cb2\n",
     "is\"Active\"": true,
     "balance": "$1,446.35",
-    "age": 32,
+    "age\n": 32,
+    "elements":["heating","heating_bake"],
     "eyeColor": "green",
     "name": "Logan Keller",
     "gender": "male",
@@ -41,10 +42,11 @@ describe(
 
         local expected = {
           {
-            ['_id'] = '5973782bdb9a930533b05cb2',
+            ['_id'] = '5973782bdb9a930533b05cb2\n',
             ['is"Active"'] = true,
             ['balance'] = '$1,446.35',
-            ['age'] = 32,
+            ['age\n'] = 32,
+            ['elements'] = {'heating', 'heating_bake'},
             ['eyeColor'] = 'green',
             ['name'] = 'Logan Keller',
             ['gender'] = 'male',
