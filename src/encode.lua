@@ -37,14 +37,16 @@ local function escape_str(s)
   return s
 end
 
-local function handle(config)
+local function handle(config, null)
   local pairs = config.sort_keys and pairs_sorted_by_keys or pairs
   local nln = config.pretty and '\n' or ''
   local spc = config.pretty and ' ' or ''
   local escape_string = config.escape_string_values and escape_str or tostring
   local function f(tbl, indent)
     local typ = type(tbl)
-    if typ == 'table' then
+    if tbl == null then
+      return 'null'
+    elseif typ == 'table' then
       local is_arr = not (not tbl[1])
       local open = is_arr and '[' or '{'
       local close = is_arr and ']' or '}'
@@ -64,15 +66,17 @@ local function handle(config)
   return f
 end
 
-return function(tbl, config)
-  config = config or {}
-  config.sort_keys = config.sort_keys or false
-  config.pretty = config.pretty or false
-  config.escape_string_values = config.escape_string_values or config.escape_string_values == nil
-  if config.pretty then
-    config.spaces = config.spaces or 2
-  else
-    config.spaces = 0
+return function(null)
+  return function(tbl, config)
+    config = config or {}
+    config.sort_keys = config.sort_keys or false
+    config.pretty = config.pretty or false
+    config.escape_string_values = config.escape_string_values or config.escape_string_values == nil
+    if config.pretty then
+      config.spaces = config.spaces or 2
+    else
+      config.spaces = 0
+    end
+    return handle(config, null)(tbl, 0) .. '\n'
   end
-  return handle(config)(tbl, 0) .. '\n'
 end

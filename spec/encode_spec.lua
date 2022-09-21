@@ -2,6 +2,7 @@ describe(
   'encode',
   function()
     local encode = require 'lua-json-native'.encode
+    local null = require 'lua-json-native'.null
 
     it(
       'should encode an array with object',
@@ -162,6 +163,22 @@ describe(
         }
 
         local actual = encode(obj, {sort_keys = true, pretty = false})
+        assert.are.same(expected, actual)
+      end
+    )
+
+    it(
+      'should encode null',
+      function()
+        local expected = '{"null":null,"null_arr":[null,null]}\n'
+
+        local obj = {
+          null = null,
+          null_arr = {null, null}
+        }
+
+        local actual = encode(obj, {sort_keys = true})
+
         assert.are.same(expected, actual)
       end
     )

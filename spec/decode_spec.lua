@@ -2,6 +2,7 @@ describe(
   'decode',
   function()
     local decode = require 'lua-json-native'.decode
+    local null = require 'lua-json-native'.null
 
     it(
       'should decode an array with object',
@@ -91,6 +92,24 @@ describe(
         local actual = decode(obj)
 
         assert.are.same(expected, actual)
+      end
+    )
+
+    it(
+      'should decode an object with null when use null is set',
+      function()
+        local obj = [===[
+{
+  "_id": null
+}
+        ]===]
+
+        local expected = {['_id'] = null}
+
+        local actual = decode(obj, {use_null = true})
+
+        assert.are.same(expected, actual)
+        assert.are.equal(actual['_id'], null)
       end
     )
 

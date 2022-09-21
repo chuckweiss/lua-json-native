@@ -46,6 +46,10 @@ local function handler(c)
   return inside_string and string_parser(c) or default(c)
 end
 
-return function(str)
-  return load('return ' .. str:gsub('.', handler), 'json-lua', 't', {})()
+return function(null)
+  return function(str, config)
+    config = config or {}
+    local env = config.use_null and {null = null} or {}
+    return load('return ' .. str:gsub('.', handler), 'json-lua', 't', env)()
+  end
 end
