@@ -47,5 +47,5 @@ local function handler(c)
 end
 
 return function(str)
-  return load('return ' .. str:gsub('.', handler))()
+  return load('return ' .. str:gsub('.', handler), 'json-lua', 't', {})()
 end
